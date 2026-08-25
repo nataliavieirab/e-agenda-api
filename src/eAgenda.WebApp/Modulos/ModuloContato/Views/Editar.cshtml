@@ -1,0 +1,45 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Contato";
+}
+
+@model EditarContatoViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    <input asp-for="Id" type="hidden">
+
+    <div class="mb-3">
+        <label asp-for="Nome" class="form-label fw-semibold text-primary text-uppercase small">Nome</label>
+        <input asp-for="Nome" type="text" class="form-control">
+        <span asp-validation-for="Nome" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label fw-semibold text-primary text-uppercase small">E-mail</label>
+        <input asp-for="Email" type="email" class="form-control" placeholder="nome@email.com">
+        <span asp-validation-for="Email" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Telefone" class="form-label fw-semibold text-primary text-uppercase small">Telefone</label>
+        <input asp-for="Telefone" type="text" class="form-control" placeholder="(48) 99999-9999">
+        <span asp-validation-for="Telefone" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cargo" class="form-label fw-semibold text-primary text-uppercase small">Cargo</label>
+        <input asp-for="Cargo" type="text" class="form-control">
+        <span asp-validation-for="Cargo" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Empresa" class="form-label fw-semibold text-primary text-uppercase small">Empresa</label>
+        <input asp-for="Empresa" type="text" class="form-control">
+        <span asp-validation-for="Empresa" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+    </div>
+</form>

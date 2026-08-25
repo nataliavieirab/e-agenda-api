@@ -1,0 +1,4 @@
+{
+    "dotnet.unitTests.runSettingsPath": "tests\\eAgenda.Testes.E2E\\playwright.runsettings"
+}
+

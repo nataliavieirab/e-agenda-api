@@ -1,0 +1,55 @@
+@using eAgenda.Dominio.Modulos.ModuloTarefa
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Listagem de Tarefas";
+}
+
+@model ListagemTarefasViewModel;
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Cadastrar">Cadastrar Nova</a>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn @(Model.Filtro == "Todas" ? "btn-primary" : "btn-outline-primary") rounded-pill px-3" asp-action="Listar" asp-route-filtro="Todas" asp-route-agruparPorPrioridade="@Model.AgruparPorPrioridade">Todas</a>
+        <a class="btn @(Model.Filtro == "Pendentes" ? "btn-primary" : "btn-outline-primary") rounded-pill px-3" asp-action="Listar" asp-route-filtro="Pendentes" asp-route-agruparPorPrioridade="@Model.AgruparPorPrioridade">Pendentes</a>
+        <a class="btn @(Model.Filtro == "Concluidas" ? "btn-primary" : "btn-outline-primary") rounded-pill px-3" asp-action="Listar" asp-route-filtro="Concluidas" asp-route-agruparPorPrioridade="@Model.AgruparPorPrioridade">Concluídas</a>
+        <a class="btn @(Model.AgruparPorPrioridade ? "btn-primary" : "btn-outline-primary") rounded-pill px-3" asp-action="Listar" asp-route-filtro="@Model.Filtro" asp-route-agruparPorPrioridade="@(!Model.AgruparPorPrioridade)">Prioridade</a>
+    </div>
+</div>
+
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+}
+
+@if (Model.Tarefas.Count == 0)
+{
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Nenhuma tarefa cadastrada.
+    </div>
+}
+else if (Model.AgruparPorPrioridade)
+{
+    @foreach (IGrouping<PrioridadeTarefa, ListarTarefasViewModel> grupo in Model.Tarefas.GroupBy(t => t.Prioridade).OrderByDescending(g => g.Key))
+    {
+        <h3 class="h5 text-primary mt-4 mb-3">@grupo.Key</h3>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+            @foreach (ListarTarefasViewModel tarefa in grupo)
+            {
+                <partial name="_TarefaCard" model="tarefa" />
+            }
+        </div>
+    }
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-2">
+        @foreach (ListarTarefasViewModel tarefa in Model.Tarefas)
+        {
+            <partial name="_TarefaCard" model="tarefa" />
+        }
+    </div>
+}

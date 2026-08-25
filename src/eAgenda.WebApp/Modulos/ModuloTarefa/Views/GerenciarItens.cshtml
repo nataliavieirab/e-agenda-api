@@ -1,0 +1,92 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Itens da Tarefa";
+}
+
+@model GerenciarItensTarefaViewModel;
+
+@if (TempData["MensagemErro"] is string mensagemErro)
+{
+    <div class="alert alert-danger border-start border-danger border-4 rounded-3" role="alert">
+        @mensagemErro
+    </div>
+}
+
+<div class="card border-primary-subtle shadow-sm mx-auto p-4 mb-3" style="max-width: 820px;">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+        <div>
+            <h3 class="h5 mb-1">@Model.Titulo</h3>
+            <div class="text-secondary">@Model.Prioridade · @(Model.Concluida ? "Concluída" : "Pendente")</div>
+        </div>
+
+        <span class="badge text-bg-primary rounded-pill">@Model.PercentualConcluido%</span>
+    </div>
+
+    <div class="progress" role="progressbar" aria-label="Percentual concluido" aria-valuenow="@Model.PercentualConcluido" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: @Model.PercentualConcluido%">@Model.PercentualConcluido%</div>
+    </div>
+</div>
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4 mb-3" style="max-width: 820px;" asp-action="AdicionarItem" method="post">
+    <input name="TarefaId" type="hidden" value="@Model.Id">
+
+    <div class="row g-2 align-items-end">
+        <div class="col-md">
+            <label for="Titulo" class="form-label fw-semibold text-primary text-uppercase small">Novo Item</label>
+            <input id="Titulo" name="Titulo" type="text" class="form-control">
+        </div>
+
+        <div class="col-md-auto">
+            <button class="btn btn-primary rounded-pill px-4" type="submit">Adicionar</button>
+        </div>
+    </div>
+</form>
+
+<div class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 820px;">
+    @if (Model.Itens.Count == 0)
+    {
+        <div class="alert alert-primary border-start border-primary border-4 rounded-3 mb-0" role="alert">
+            Nenhum item cadastrado.
+        </div>
+
+        <form class="d-flex justify-content-end mt-3" asp-action="AlterarConclusao" method="post">
+            <input name="TarefaId" type="hidden" value="@Model.Id">
+            <input name="Concluida" type="hidden" value="@(Model.Concluida ? "false" : "true")">
+            <input name="RetornarParaItens" type="hidden" value="true">
+            <button class="btn btn-outline-primary rounded-pill px-4" type="submit">@(Model.Concluida ? "Reabrir Tarefa" : "Concluir Tarefa")</button>
+        </form>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (ItemTarefaViewModel item in Model.Itens)
+            {
+                <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div>
+                        <div class="fw-semibold @(item.Concluido ? "text-decoration-line-through text-secondary" : string.Empty)">@item.Titulo</div>
+                        <div class="small text-secondary">@(item.Concluido ? "Concluído" : "Pendente")</div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <form asp-action="AlterarConclusaoItem" method="post">
+                            <input name="TarefaId" type="hidden" value="@Model.Id">
+                            <input name="ItemId" type="hidden" value="@item.Id">
+                            <input name="Concluido" type="hidden" value="@(item.Concluido ? "false" : "true")">
+                            <button class="btn btn-outline-primary btn-sm rounded-pill px-3" type="submit">@(item.Concluido ? "Reabrir" : "Concluir")</button>
+                        </form>
+
+                        <form asp-action="RemoverItem" method="post">
+                            <input name="TarefaId" type="hidden" value="@Model.Id">
+                            <input name="ItemId" type="hidden" value="@item.Id">
+                            <button class="btn btn-outline-primary btn-sm rounded-pill px-3" type="submit">Remover</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Despesa";
+}
+
+@model CadastrarDespesaViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 720px;" asp-action="Cadastrar" method="post">
+    <div class="mb-3">
+        <label asp-for="Descricao" class="form-label fw-semibold text-primary text-uppercase small">Descrição</label>
+        <input asp-for="Descricao" type="text" class="form-control">
+        <span asp-validation-for="Descricao" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="DataOcorrencia" class="form-label fw-semibold text-primary text-uppercase small">Data de Ocorrência</label>
+            <input asp-for="DataOcorrencia" type="date" class="form-control">
+            <span asp-validation-for="DataOcorrencia" class="text-danger small fw-semibold"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Valor" class="form-label fw-semibold text-primary text-uppercase small">Valor</label>
+            <input asp-for="Valor" type="number" step="0.01" min="0.01" class="form-control">
+            <span asp-validation-for="Valor" class="text-danger small fw-semibold"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="FormaPagamento" class="form-label fw-semibold text-primary text-uppercase small">Forma de Pagamento</label>
+            <select asp-for="FormaPagamento" class="form-select">
+                <option value="AVista">À Vista</option>
+                <option value="Credito">Crédito</option>
+                <option value="Debito">Débito</option>
+            </select>
+            <span asp-validation-for="FormaPagamento" class="text-danger small fw-semibold"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label asp-for="CategoriaIds" class="form-label fw-semibold text-primary text-uppercase small">Categorias</label>
+        <select asp-for="CategoriaIds" class="form-select" multiple size="5">
+            @foreach (CategoriaDespesaViewModel categoria in Model.Categorias)
+            {
+                <option value="@categoria.Id">@categoria.Titulo</option>
+            }
+        </select>
+        <span asp-validation-for="CategoriaIds" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+    </div>
+</form>

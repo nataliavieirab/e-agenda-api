@@ -1,0 +1,36 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Exclusão de Tarefa";
+}
+
+@model ExcluirTarefaViewModel;
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Excluir" asp-route-id="@Model.Id" method="post">
+    <input asp-for="Id" type="hidden">
+
+    <div class="alert alert-primary border-start border-primary border-4 rounded-3" role="alert">
+        Deseja realmente excluir esta tarefa?
+    </div>
+
+    <dl class="row mb-0">
+        <dt class="col-sm-4 fw-semibold text-primary text-uppercase small">ID</dt>
+        <dd class="col-sm-8 text-break">@Model.Id</dd>
+
+        <dt class="col-sm-4 fw-semibold text-primary text-uppercase small">Título</dt>
+        <dd class="col-sm-8">@Model.Titulo</dd>
+
+        <dt class="col-sm-4 fw-semibold text-primary text-uppercase small">Prioridade</dt>
+        <dd class="col-sm-8">@Model.Prioridade</dd>
+
+        <dt class="col-sm-4 fw-semibold text-primary text-uppercase small">Percentual</dt>
+        <dd class="col-sm-8">@Model.PercentualConcluido%</dd>
+
+        <dt class="col-sm-4 fw-semibold text-primary text-uppercase small">Itens</dt>
+        <dd class="col-sm-8">@Model.Itens.Count</dd>
+    </dl>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+    </div>
+</form>
