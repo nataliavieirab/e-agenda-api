@@ -28,8 +28,5 @@
     <Folder Include="Modulos/ModuloTarefa/" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="../../src/eAgenda.WebApp/eAgenda.WebApp.csproj" />
-  </ItemGroup>
 
 </Project>
