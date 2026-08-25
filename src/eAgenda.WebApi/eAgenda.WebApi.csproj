@@ -1,9 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>89647a5e-4802-42c7-a119-d09bc35841ef</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../eAgenda.Aplicacao/eAgenda.Aplicacao.csproj" />
+    <ProjectReference Include="../eAgenda.Infra/eAgenda.Infra.csproj" />
+  </ItemGroup>
 
 </Project>
