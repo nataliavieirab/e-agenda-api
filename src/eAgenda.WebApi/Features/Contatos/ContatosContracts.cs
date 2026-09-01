@@ -8,10 +8,6 @@ public record CadastrarContatoRequest(
     string? Empresa
 );
 
-public record CadastrarContatoResponse(
-    Guid Id
-);
-
 public record EditarContatoRequest(
     string Nome,
     string Email,
