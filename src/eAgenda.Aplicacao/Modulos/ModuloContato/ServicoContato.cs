@@ -19,13 +19,13 @@ public class ServicoContato : ServicoBase<Contato>
         this.repositorioCompromisso = repositorioCompromisso;
     }
 
-    public Result Cadastrar(CadastrarContatoDto dto)
+    public Result<Guid> Cadastrar(CadastrarContatoDto dto)
     {
         if (ExisteContatoComMesmoEmail(dto.Email))
-            return Falha(nameof(dto.Email), "Já existe um contato com este email.");
+            return Falha<Guid>(nameof(dto.Email), "Já existe um contato com este email.");
 
         if (ExisteContatoComMesmoTelefone(dto.Telefone))
-            return Falha(nameof(dto.Telefone), "Já existe um contato com este telefone.");
+            return Falha<Guid>(nameof(dto.Telefone), "Já existe um contato com este telefone.");
 
         Contato novoContato = new Contato(
             dto.Nome,
@@ -38,11 +38,11 @@ public class ServicoContato : ServicoBase<Contato>
         Result resultadoValidacao = ValidarEntidade(novoContato);
 
         if (resultadoValidacao.IsFailed)
-            return resultadoValidacao;
+            return Result.Fail<Guid>(resultadoValidacao.Errors);
 
         repositorioContato.Cadastrar(novoContato);
 
-        return Result.Ok();
+        return Result.Ok(novoContato.Id);
     }
 
     public Result Editar(EditarContatoDto dto)

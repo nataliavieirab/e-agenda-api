@@ -12,11 +12,21 @@ public abstract class ServicoBase<T> where T : EntidadeBase<T>
         if (erros.Count == 0)
             return Result.Ok();
 
-        return Falha(string.Empty, erros.First());
+        Result resultado = Result.Ok();
+
+        foreach (string erro in erros)
+            resultado.WithError(new Error(erro).WithMetadata("Campo", string.Empty));
+
+        return resultado;
     }
 
     protected static Result Falha(string campo, string mensagem)
     {
         return Result.Fail(new Error(mensagem).WithMetadata("Campo", campo));
+    }
+
+    protected static Result<TValue> Falha<TValue>(string campo, string mensagem)
+    {
+        return Result.Fail<TValue>(new Error(mensagem).WithMetadata("Campo", campo));
     }
 }
