@@ -1,5 +1,6 @@
 using eAgenda.Aplicacao.Modulos.ModuloContato;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace eAgenda.WebApi.Features.Contatos;
 
 [ApiController]
@@ -41,7 +42,39 @@ public sealed class ContatosController(ServicoContato servicoContato) : Controll
         var resultadoCadastro = servicoContato.Cadastrar(dto);
 
         if (resultadoCadastro.IsFailed)
-            return BadRequest();
+        {
+            if (resultadoCadastro.HasError(e =>
+                e.Message.Equals("Já existe um contato com este email.") ||
+                e.Message.Equals("Já existe um contato com este telefone.")
+            )
+            )
+            {
+                return Problem(
+                    statusCode: StatusCodes.Status409Conflict,
+                    detail: resultadoCadastro.Errors.First().Message,
+                    title: "Conflito",
+                    type: "https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Reference/Status/409"
+                );
+            }
+
+            var modelState = new ModelStateDictionary();
+
+            foreach (var erro in resultadoCadastro.Errors)
+            {
+                var campo = erro.Metadata["Campo"];
+
+                modelState.AddModelError(campo.ToString()!, erro.Message);
+            }
+
+            ValidationProblemDetails problemDetails = new(modelState)
+
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = "Requisição Inválida"
+            };
+
+            return ValidationProblem(problemDetails);
+        }
 
         var id = resultadoCadastro.Value;
 
