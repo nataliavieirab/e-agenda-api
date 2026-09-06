@@ -1,3 +1,4 @@
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloCategoria;
 using eAgenda.Dominio.Modulos.ModuloDespesa;
 
@@ -22,7 +23,7 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.HasCount(1, despesa.Categorias);
@@ -45,7 +46,7 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.HasCount(2, despesa.Categorias);
@@ -67,7 +68,7 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.AreEqual(DateTime.Today, despesa.DataOcorrencia);
@@ -89,13 +90,14 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(1, erros);
         Assert.HasCount(1, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Descricao), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Descrição\" deve conter entre 2 e 100 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -115,13 +117,14 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(1, erros);
         Assert.HasCount(1, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.FormaPagamento), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Forma de Pagamento\" deve ser preenchido.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -137,14 +140,15 @@ public sealed class DespesaTests
         );
 
         // Act
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         // Assert
         Assert.HasCount(1, erros);
         Assert.HasCount(0, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Categorias), erros.First().Campo);
         Assert.AreEqual(
             "Selecione ao menos uma categoria.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -165,14 +169,15 @@ public sealed class DespesaTests
         );
 
         // Act
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         // Assert
         Assert.HasCount(1, erros);
         Assert.HasCount(1, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Descricao), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Descrição\" deve conter entre 2 e 100 caracteres.",
-         erros.First()
+         erros.First().Mensagem
         );
     }
 
@@ -192,7 +197,7 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.HasCount(1, despesa.Categorias);
@@ -214,13 +219,14 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(1, erros);
         Assert.HasCount(1, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Descricao), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Descrição\" deve conter entre 2 e 100 caracteres.",
-         erros.First()
+         erros.First().Mensagem
         );
     }
 
@@ -240,13 +246,14 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(1, erros);
         Assert.HasCount(1, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Valor), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Valor\" deve ser maior que zero.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -266,13 +273,14 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(1, erros);
         Assert.HasCount(1, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Valor), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Valor\" deve ser maior que zero.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -292,7 +300,7 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.HasCount(1, despesa.Categorias);
@@ -312,13 +320,14 @@ public sealed class DespesaTests
             categorias
         );
 
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.HasCount(1, erros);
         Assert.HasCount(0, despesa.Categorias);
+        Assert.AreEqual(nameof(Despesa.Categorias), erros.First().Campo);
         Assert.AreEqual(
             "Selecione ao menos uma categoria.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -388,7 +397,7 @@ public sealed class DespesaTests
         );
 
         despesa.Atualizar(despesaAtualizada);
-        List<string> erros = despesa.Validar();
+        IReadOnlyList<ErroValidacao> erros = despesa.Validar();
 
         Assert.AreEqual("Táxi", despesa.Descricao);
         Assert.AreEqual(new DateTime(2026, 12, 8), despesa.DataOcorrencia);
@@ -398,6 +407,7 @@ public sealed class DespesaTests
         Assert.IsEmpty(despesa.Categorias);
 
         Assert.HasCount(1, erros);
-        Assert.AreEqual("Selecione ao menos uma categoria.", erros.First());
+        Assert.AreEqual(nameof(Despesa.Categorias), erros.First().Campo);
+        Assert.AreEqual("Selecione ao menos uma categoria.", erros.First().Mensagem);
     }
 }

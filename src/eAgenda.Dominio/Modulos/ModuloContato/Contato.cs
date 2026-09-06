@@ -30,36 +30,36 @@ public class Contato : EntidadeBase<Contato>
         Empresa = empresa;
     }
 
-    public override List<string> Validar()
+    public override IReadOnlyList<ErroValidacao> Validar()
     {
-        List<string> erros = [];
+        List<ErroValidacao> erros = [];
 
         if (string.IsNullOrWhiteSpace(Nome))
-            erros.Add("O campo \"Nome\" deve ser preenchido.");
+            erros.Add(new(nameof(Nome), "O campo \"Nome\" deve ser preenchido."));
 
         else if (Nome.Length < 2)
-            erros.Add("O campo \"Nome\" deve conter no mínimo 2 caracteres.");
+            erros.Add(new(nameof(Nome), "O campo \"Nome\" deve conter no mínimo 2 caracteres."));
 
         else if (Nome.Length > 100)
-            erros.Add("O campo \"Nome\" deve conter no máximo 100 caracteres.");
+            erros.Add(new(nameof(Nome), "O campo \"Nome\" deve conter no máximo 100 caracteres."));
 
         if (string.IsNullOrWhiteSpace(Email))
-            erros.Add("O campo \"E-mail\" deve ser preenchido.");
+            erros.Add(new(nameof(Email), "O campo \"E-mail\" deve ser preenchido."));
 
         else if (!Regex.IsMatch(Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            erros.Add("O campo \"E-mail\" deve conter um endereço de e-mail válido.");
+            erros.Add(new(nameof(Email), "O campo \"E-mail\" deve conter um endereço de e-mail válido."));
 
         if (string.IsNullOrWhiteSpace(Telefone))
-            erros.Add("O campo \"Telefone\" deve ser preenchido.");
+            erros.Add(new(nameof(Telefone), "O campo \"Telefone\" deve ser preenchido."));
 
         else if (!Regex.IsMatch(Telefone, @"^\(\d{2}\) \d{4,5}-\d{4}$"))
-            erros.Add("O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.");
+            erros.Add(new(nameof(Telefone), "O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX."));
 
         if (!string.IsNullOrWhiteSpace(Cargo) && Cargo.Length > 100)
-            erros.Add("O campo \"Cargo\" deve conter no máximo 100 caracteres.");
+            erros.Add(new(nameof(Cargo), "O campo \"Cargo\" deve conter no máximo 100 caracteres."));
 
         if (!string.IsNullOrWhiteSpace(Empresa) && Empresa.Length > 100)
-            erros.Add("O campo \"Empresa\" deve conter no máximo 100 caracteres.");
+            erros.Add(new(nameof(Empresa), "O campo \"Empresa\" deve conter no máximo 100 caracteres."));
 
         return erros;
     }

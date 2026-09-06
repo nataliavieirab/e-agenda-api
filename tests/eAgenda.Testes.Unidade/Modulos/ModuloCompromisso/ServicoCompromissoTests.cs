@@ -1,4 +1,5 @@
 using eAgenda.Aplicacao.Modulos.ModuloCompromisso;
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloCompromisso;
 using eAgenda.Dominio.Modulos.ModuloContato;
 using FluentResults;
@@ -293,10 +294,11 @@ public sealed class ServicoCompromissoTests
             null
         );
 
-        List<string> erros = compromisso.Validar();
+        IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
         Assert.AreEqual(1, erros.Count);
-        Assert.AreEqual("O campo \"Hora de Término\" deve ser preenchido.", erros[0]);
+        Assert.AreEqual(nameof(Compromisso.HoraTermino), erros[0].Campo);
+        Assert.AreEqual("O campo \"Hora de Término\" deve ser preenchido.", erros[0].Mensagem);
     }
 
     [TestMethod]
@@ -313,9 +315,10 @@ public sealed class ServicoCompromissoTests
             null
         );
 
-        List<string> erros = compromisso.Validar();
+        IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
-        Assert.AreEqual("O campo \"Tipo de Compromisso\" deve ser preenchido.", erros.Single());
+        Assert.AreEqual(nameof(Compromisso.Tipo), erros.Single().Campo);
+        Assert.AreEqual("O campo \"Tipo de Compromisso\" deve ser preenchido.", erros.Single().Mensagem);
     }
 
     [TestMethod]
@@ -332,9 +335,10 @@ public sealed class ServicoCompromissoTests
             null
         );
 
-        List<string> erros = compromisso.Validar();
+        IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
-        Assert.AreEqual("O campo \"Local\" deve ser preenchido para compromissos presenciais.", erros.Single());
+        Assert.AreEqual(nameof(Compromisso.Local), erros.Single().Campo);
+        Assert.AreEqual("O campo \"Local\" deve ser preenchido para compromissos presenciais.", erros.Single().Mensagem);
     }
 
     [TestMethod]
@@ -351,9 +355,10 @@ public sealed class ServicoCompromissoTests
             null
         );
 
-        List<string> erros = compromisso.Validar();
+        IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
-        Assert.AreEqual("O campo \"Link\" deve ser preenchido para compromissos remotos.", erros.Single());
+        Assert.AreEqual(nameof(Compromisso.Link), erros.Single().Campo);
+        Assert.AreEqual("O campo \"Link\" deve ser preenchido para compromissos remotos.", erros.Single().Mensagem);
     }
 
 

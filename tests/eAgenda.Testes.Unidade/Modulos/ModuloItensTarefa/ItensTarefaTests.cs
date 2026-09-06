@@ -1,3 +1,4 @@
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloTarefa;
 
 namespace eAgenda.Testes.Unidade.Modulos.ModuloItensTarefa;
@@ -14,7 +15,7 @@ public sealed class ItensTarefaTests
 
         tarefa.AdicionarItem(itemTarefa);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.HasCount(1, tarefa.Itens);
@@ -30,10 +31,11 @@ public sealed class ItensTarefaTests
 
         tarefa.AdicionarItem(itemTarefa);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(1, erros);
-        Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", erros.First());
+        Assert.AreEqual(nameof(ItemTarefa.Titulo), erros.First().Campo);
+        Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", erros.First().Mensagem);
         Assert.HasCount(1, tarefa.Itens);
         Assert.AreEqual(0, tarefa.PercentualConcluido);
     }
@@ -47,10 +49,11 @@ public sealed class ItensTarefaTests
 
         tarefa.AdicionarItem(itemTarefa);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(1, erros);
-        Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", erros.First());
+        Assert.AreEqual(nameof(ItemTarefa.Titulo), erros.First().Campo);
+        Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", erros.First().Mensagem);
         Assert.HasCount(1, tarefa.Itens);
         Assert.AreEqual(0, tarefa.PercentualConcluido);
     }
@@ -64,10 +67,11 @@ public sealed class ItensTarefaTests
 
         tarefa.AdicionarItem(itemTarefa);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(1, erros);
-        Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", erros.First());
+        Assert.AreEqual(nameof(ItemTarefa.Titulo), erros.First().Campo);
+        Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", erros.First().Mensagem);
         Assert.HasCount(1, tarefa.Itens);
         Assert.AreEqual(0, tarefa.PercentualConcluido);
     }

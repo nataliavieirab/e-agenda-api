@@ -29,7 +29,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             "Natalia Bortoli Vieira",
             "nataliabv@gmail.com",
             "(48) 99988-7788",
@@ -69,7 +69,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             "Natalia Bortoli Vieira",
             "nataliabv@gmail.com",
             "(48) 99988-7788",
@@ -101,7 +101,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             string.Empty,
             "nataliabv@gmail.com",
             "(48) 99988-7788",
@@ -128,7 +128,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             "Natalia Bortoli Vieira",
             string.Empty,
             "(48) 99988-7788",
@@ -155,7 +155,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             "Natalia Bortoli Vieira",
             "nataliabv@gmail.com",
             string.Empty,
@@ -189,7 +189,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             "Natalia Vieira",
             "nataliabortolivieira@gmail.com",
             string.Empty,
@@ -224,7 +224,7 @@ public sealed class ServicoContatoTestes
             repositorioCompromisso.Object
         );
 
-        Result resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
+        Result<Guid> resultado = servicoContato.Cadastrar(new CadastrarContatoDto(
             "Natalia Vieira",
             "nataliabvieira@gmail.com",
             "(49) 99988-7766",

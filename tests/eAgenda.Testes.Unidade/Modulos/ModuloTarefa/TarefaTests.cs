@@ -1,3 +1,4 @@
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloTarefa;
 namespace eAgenda.Testes.Unidade.Modulos.ModuloTarefa;
 
@@ -9,7 +10,7 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new("Faxina", PrioridadeTarefa.Alta);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -19,7 +20,7 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new("Faxina", PrioridadeTarefa.Alta);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.IsFalse(tarefa.Concluida);
@@ -39,7 +40,7 @@ public sealed class TarefaTests
         tarefa.AdicionarItem(itemTarefa);
         tarefa.AdicionarItem(itemTarefa2);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(0, erros);
         Assert.HasCount(2, tarefa.Itens);
@@ -51,16 +52,24 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new(string.Empty, (PrioridadeTarefa)999);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(2, erros);
+        CollectionAssert.AreEquivalent(
+            new[]
+            {
+                nameof(Tarefa.Titulo),
+                nameof(Tarefa.Prioridade)
+            },
+            erros.Select(e => e.Campo).ToArray()
+        );
         CollectionAssert.AreEquivalent(
             new[]
             {
                 "O campo \"Título\" deve ser preenchido.",
                 "O campo \"Prioridade\" deve ser preenchido."
             },
-            erros
+            erros.Select(e => e.Mensagem).ToArray()
         );
     }
 
@@ -69,12 +78,13 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new(new string('A', 1), PrioridadeTarefa.Alta);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Tarefa.Titulo), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Título\" deve conter no mínimo 2 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -83,7 +93,7 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new(new string('A', 2), PrioridadeTarefa.Alta);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -93,12 +103,13 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new(new string('A', 101), PrioridadeTarefa.Alta);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Tarefa.Titulo), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Título\" deve conter no máximo 100 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -107,7 +118,7 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new(new string('A', 100), PrioridadeTarefa.Alta);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -117,12 +128,13 @@ public sealed class TarefaTests
     {
         Tarefa tarefa = new("Faxina", (PrioridadeTarefa)999);
 
-        List<string> erros = tarefa.Validar();
+        IReadOnlyList<ErroValidacao> erros = tarefa.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Tarefa.Prioridade), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Prioridade\" deve ter valores válidos.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 

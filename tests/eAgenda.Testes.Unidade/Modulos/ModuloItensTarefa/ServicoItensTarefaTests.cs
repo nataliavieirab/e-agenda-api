@@ -69,6 +69,7 @@ public sealed class ServicoItensTarefaTests
         Result resultado = servicoTarefa.AdicionarItem(dto);
 
         Assert.IsFalse(resultado.IsSuccess);
+        Assert.AreEqual(nameof(ItemTarefa.Titulo), resultado.Errors[0].Metadata["Campo"]);
         Assert.AreEqual("O campo \"Título\" deve conter entre 2 e 100 caracteres.", resultado.Errors[0].Message);
         Assert.IsEmpty(tarefaExistente.Itens);
 

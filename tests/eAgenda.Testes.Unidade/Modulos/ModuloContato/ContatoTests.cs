@@ -1,3 +1,4 @@
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloContato;
 namespace eAgenda.Testes.Unidade.Modulos.ModuloContato;
 
@@ -9,12 +10,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato(string.Empty, "nbv@gmail.com", "(48) 99970-6544", "Desenvolvedora", "Academia do Programador");
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Nome), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Nome\" deve ser preenchido.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -23,12 +25,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato(new string('A', 1), "nbv@gmail.com", "(48) 99970-6544", null, null);
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Nome), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Nome\" deve conter no mínimo 2 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -37,7 +40,7 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato(new string('A', 2), "nbv@gmail.com", "(48) 99970-6544", null, null);
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -47,12 +50,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato(new string('A', 101), "nbv@gmail.com", "(48) 99970-6544", string.Empty, string.Empty);
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Nome), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Nome\" deve conter no máximo 100 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -61,7 +65,7 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato(new string('A', 100), "nbv@gmail.com", "(48) 99970-6544", null, null);
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -71,12 +75,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", new string('A', 10), "(48) 99970-6544", "Desenvolvedora", "Academia do Programador");
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Email), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"E-mail\" deve conter um endereço de e-mail válido.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -85,12 +90,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", "nbv@", "(48) 99970-6544", "Desenvolvedora", "Academia do Programador");
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Email), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"E-mail\" deve conter um endereço de e-mail válido.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -99,12 +105,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", "nbv@gmail.com", "48999706544", "Desenvolvedora", "Academia do Programador");
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Telefone), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Telefone\" deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -113,7 +120,7 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", "nbv@gmail.com", "(48) 3222-9900", "Desenvolvedora", "Academia do Programador");
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -123,7 +130,7 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", "nbv@gmail.com", "(48) 99970-6544", "Desenvolvedora", "Academia do Programador");
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -133,12 +140,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", "nbv@gmail.com", "(48) 99970-6544", new string('A', 101), null);
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Cargo), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Cargo\" deve conter no máximo 100 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -147,12 +155,13 @@ public sealed class ContatoTests
     {
         Contato contato = new Contato("Natalia Vieira", "nbv@gmail.com", "(48) 99970-6544", null, new string('A', 101));
 
-        List<string> erros = contato.Validar();
+        IReadOnlyList<ErroValidacao> erros = contato.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Contato.Empresa), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Empresa\" deve conter no máximo 100 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 

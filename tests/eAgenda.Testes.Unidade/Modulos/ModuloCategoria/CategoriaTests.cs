@@ -1,4 +1,4 @@
-
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloCategoria;
 
 namespace eAgenda.Testes.Unidade.Modulos.ModuloCategoria;
@@ -12,7 +12,7 @@ public sealed class CategoriaTests
     {
         Categoria categoria = new("Mercado");
 
-        List<string> erros = categoria.Validar();
+        IReadOnlyList<ErroValidacao> erros = categoria.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -22,12 +22,13 @@ public sealed class CategoriaTests
     {
         Categoria categoria = new(string.Empty);
 
-        List<string> erros = categoria.Validar();
+        IReadOnlyList<ErroValidacao> erros = categoria.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Categoria.Titulo), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Título\" deve ser preenchido.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -36,12 +37,13 @@ public sealed class CategoriaTests
     {
         Categoria categoria = new(new string('A', 1));
 
-        List<string> erros = categoria.Validar();
+        IReadOnlyList<ErroValidacao> erros = categoria.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Categoria.Titulo), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Título\" deve conter no mínimo 2 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -51,7 +53,7 @@ public sealed class CategoriaTests
     {
         Categoria categoria = new(new string('A', 2));
 
-        List<string> erros = categoria.Validar();
+        IReadOnlyList<ErroValidacao> erros = categoria.Validar();
 
         Assert.HasCount(0, erros);
     }
@@ -62,12 +64,13 @@ public sealed class CategoriaTests
     {
         Categoria categoria = new(new string('A', 101));
 
-        List<string> erros = categoria.Validar();
+        IReadOnlyList<ErroValidacao> erros = categoria.Validar();
 
         Assert.HasCount(1, erros);
+        Assert.AreEqual(nameof(Categoria.Titulo), erros.First().Campo);
         Assert.AreEqual(
             "O campo \"Título\" deve conter no máximo 100 caracteres.",
-            erros.First()
+            erros.First().Mensagem
         );
     }
 
@@ -76,7 +79,7 @@ public sealed class CategoriaTests
     {
         Categoria categoria = new(new string('A', 100));
 
-        List<string> erros = categoria.Validar();
+        IReadOnlyList<ErroValidacao> erros = categoria.Validar();
 
         Assert.HasCount(0, erros);
     }

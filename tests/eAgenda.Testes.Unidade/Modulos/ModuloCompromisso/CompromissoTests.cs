@@ -1,4 +1,5 @@
 using System.Data;
+using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.Modulos.ModuloCompromisso;
 using eAgenda.Dominio.Modulos.ModuloContato;
 
@@ -25,7 +26,7 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.IsEmpty(erros);
@@ -47,7 +48,7 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.IsEmpty(erros);
@@ -69,7 +70,7 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.IsEmpty(erros);
@@ -93,7 +94,7 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.IsEmpty(erros);
@@ -115,13 +116,14 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Link), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Link\" deve conter um endereço de site válido.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -141,13 +143,14 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.HoraTermino), erros.First().Campo);
             Assert.AreEqual(
                 "A hora de término deve ser posterior à hora de início.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -167,13 +170,14 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.HoraTermino), erros.First().Campo);
             Assert.AreEqual(
                 "A hora de término deve ser posterior à hora de início.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -195,12 +199,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Assunto), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Assunto\" deve conter entre 2 e 100 caracteres.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -218,12 +223,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.DataOcorrencia), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Data de Ocorrência\" deve ser preenchido.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -241,12 +247,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.HoraInicio), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Hora de Início\" deve ser preenchido.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -264,12 +271,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.HoraTermino), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Hora de Término\" deve ser preenchido.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -287,12 +295,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Tipo), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Tipo de Compromisso\" deve ser preenchido.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -310,12 +319,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Local), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Local\" deve ser preenchido para compromissos presenciais.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -333,12 +343,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Link), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Link\" deve ser preenchido para compromissos remotos.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -356,12 +367,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Local), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Local\" deve conter no máximo 255 caracteres.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -379,12 +391,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Link), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Link\" deve conter no máximo 500 caracteres.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -406,12 +419,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Assunto), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Assunto\" deve conter entre 2 e 100 caracteres.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -429,7 +443,7 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(0, erros);
         }
@@ -448,12 +462,13 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
                 null
             );
 
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Assunto), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Assunto\" deve conter entre 2 e 100 caracteres.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
 
@@ -555,13 +570,14 @@ namespace eAgenda.Testes.Unidade.Modulos.ModuloCompromisso
             );
 
             // Act
-            List<string> erros = compromisso.Validar();
+            IReadOnlyList<ErroValidacao> erros = compromisso.Validar();
 
             // Assert
             Assert.HasCount(1, erros);
+            Assert.AreEqual(nameof(Compromisso.Link), erros.First().Campo);
             Assert.AreEqual(
                 "O campo \"Link\" deve conter um endereço de site válido.",
-                erros.First()
+                erros.First().Mensagem
             );
         }
     }

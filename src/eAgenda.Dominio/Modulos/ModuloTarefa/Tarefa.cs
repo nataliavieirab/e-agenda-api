@@ -86,30 +86,30 @@ public class Tarefa : EntidadeBase<Tarefa>
         DataConclusao = Concluida ? DataConclusao ?? DateTime.Today : null;
     }
 
-    public override List<string> Validar()
+    public override IReadOnlyList<ErroValidacao> Validar()
     {
-        List<string> erros = new();
+        List<ErroValidacao> erros = [];
 
         if (string.IsNullOrWhiteSpace(Titulo))
-            erros.Add("O campo \"Título\" deve ser preenchido.");
+            erros.Add(new(nameof(Titulo), "O campo \"Título\" deve ser preenchido."));
         else
         {
             if (Titulo.Length < 2)
-                erros.Add("O campo \"Título\" deve conter no mínimo 2 caracteres.");
+                erros.Add(new(nameof(Titulo), "O campo \"Título\" deve conter no mínimo 2 caracteres."));
             if (Titulo.Length > 100)
-                erros.Add("O campo \"Título\" deve conter no máximo 100 caracteres.");
+                erros.Add(new(nameof(Titulo), "O campo \"Título\" deve conter no máximo 100 caracteres."));
         }
 
         if (!Enum.IsDefined(Prioridade))
         {
             if (string.IsNullOrWhiteSpace(Titulo))
-                erros.Add("O campo \"Prioridade\" deve ser preenchido.");
+                erros.Add(new(nameof(Prioridade), "O campo \"Prioridade\" deve ser preenchido."));
             else
-                erros.Add("O campo \"Prioridade\" deve ter valores válidos.");
+                erros.Add(new(nameof(Prioridade), "O campo \"Prioridade\" deve ter valores válidos."));
         }
 
         if (DataCriacao == default)
-            erros.Add("O campo \"Data de Criação\" deve ser preenchido.");
+            erros.Add(new(nameof(DataCriacao), "O campo \"Data de Criação\" deve ser preenchido."));
 
         foreach (ItemTarefa item in Itens)
             erros.AddRange(item.Validar());
