@@ -19,12 +19,12 @@ public class ServicoDespesa : ServicoBase<Despesa>
         this.repositorioCategoria = repositorioCategoria;
     }
 
-    public Result Cadastrar(CadastrarDespesaDto dto)
+    public Result<Guid> Cadastrar(CadastrarDespesaDto dto)
     {
         Result<List<Categoria>> resultadoCategorias = SelecionarCategorias(dto.CategoriaIds);
 
         if (resultadoCategorias.IsFailed)
-            return resultadoCategorias.ToResult();
+            return Result.Fail<Guid>(resultadoCategorias.Errors);
 
         Despesa novaDespesa = new Despesa(
             dto.Descricao,
@@ -37,11 +37,11 @@ public class ServicoDespesa : ServicoBase<Despesa>
         Result resultadoValidacao = ValidarEntidade(novaDespesa);
 
         if (resultadoValidacao.IsFailed)
-            return resultadoValidacao;
+            return Result.Fail<Guid>(resultadoValidacao.Errors);
 
         repositorioDespesa.Cadastrar(novaDespesa);
 
-        return Result.Ok();
+        return Result.Ok(novaDespesa.Id);
     }
 
     public Result Editar(EditarDespesaDto dto)
@@ -67,7 +67,7 @@ public class ServicoDespesa : ServicoBase<Despesa>
         bool conseguiuEditar = repositorioDespesa.Editar(dto.Id, despesaAtualizada);
 
         if (!conseguiuEditar)
-            return Falha(string.Empty, "Despesa não encontrada.");
+            return Falha(TipoErro.NaoEncontrado, string.Empty, "Despesa não encontrada.");
 
         return Result.Ok();
     }
@@ -77,7 +77,7 @@ public class ServicoDespesa : ServicoBase<Despesa>
         Despesa? despesa = repositorioDespesa.SelecionarPorId(id);
 
         if (despesa == null)
-            return Falha(string.Empty, "Despesa não encontrada.");
+            return Falha(TipoErro.NaoEncontrado, string.Empty, "Despesa não encontrada.");
 
         repositorioDespesa.Excluir(id);
 
@@ -86,8 +86,20 @@ public class ServicoDespesa : ServicoBase<Despesa>
 
     public List<ListarDespesasDto> SelecionarTodos()
     {
-        return repositorioDespesa
-            .SelecionarTodos()
+        return Mapear(repositorioDespesa.SelecionarTodos());
+    }
+
+    public List<ListarDespesasDto> SelecionarTodos(Guid? categoriaId)
+    {
+        if (!categoriaId.HasValue || categoriaId == Guid.Empty)
+            return SelecionarTodos();
+
+        return Mapear(repositorioDespesa.Filtrar(d => d.Categorias.Any(c => c.Id == categoriaId.Value)));
+    }
+
+    private static List<ListarDespesasDto> Mapear(IEnumerable<Despesa> despesas)
+    {
+        return despesas
             .Select(d => new ListarDespesasDto(
                 d.Id,
                 d.Descricao,
@@ -104,7 +116,7 @@ public class ServicoDespesa : ServicoBase<Despesa>
         Despesa? despesa = repositorioDespesa.SelecionarPorId(id);
 
         if (despesa == null)
-            return Result.Fail("Despesa não encontrada.");
+            return Falha<DetalhesDespesaDto>(TipoErro.NaoEncontrado, string.Empty, "Despesa não encontrada.");
 
         return Result.Ok(new DetalhesDespesaDto(
             despesa.Id,
@@ -132,7 +144,7 @@ public class ServicoDespesa : ServicoBase<Despesa>
             .ToList();
 
         if (idsDistintos.Count == 0)
-            return Result.Fail<List<Categoria>>(new Error("Selecione ao menos uma categoria.").WithMetadata("Campo", nameof(CadastrarDespesaDto.CategoriaIds)));
+            return Falha<List<Categoria>>(TipoErro.Validacao, nameof(CadastrarDespesaDto.CategoriaIds), "Selecione ao menos uma categoria.");
 
         List<Categoria> categoriasSelecionadas = repositorioCategoria
             .SelecionarTodos()
@@ -140,7 +152,7 @@ public class ServicoDespesa : ServicoBase<Despesa>
             .ToList();
 
         if (categoriasSelecionadas.Count != idsDistintos.Count)
-            return Result.Fail<List<Categoria>>(new Error("Selecione apenas categorias válidas.").WithMetadata("Campo", nameof(CadastrarDespesaDto.CategoriaIds)));
+            return Falha<List<Categoria>>(TipoErro.Validacao, nameof(CadastrarDespesaDto.CategoriaIds), "Selecione apenas categorias válidas.");
 
         return Result.Ok(categoriasSelecionadas);
     }

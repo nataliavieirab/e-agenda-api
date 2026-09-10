@@ -40,7 +40,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             "Almoço de negócios",
             new DateTime(2026, 8, 8),
             120.50m,
@@ -101,7 +101,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             "Viagem de negócios",
             new DateTime(2026, 8, 9),
             500.00m,
@@ -145,7 +145,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             string.Empty,
             DateTime.Today,
             100m,
@@ -175,7 +175,7 @@ public sealed class ServicoDespesaTests
             repositorioDespesa.Object,
             repositorioCategoria.Object
         );
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             "Táxi",
             null,
             50m,
@@ -204,7 +204,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             "Curso online",
             DateTime.Today,
             0m,
@@ -233,7 +233,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             "Consulta médica",
             DateTime.Today,
             200m,
@@ -257,7 +257,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Cadastrar(new CadastrarDespesaDto(
             "Despesa Transporte",
             DateTime.Today,
             150m,
@@ -314,7 +314,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Editar(new EditarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Editar(new EditarDespesaDto(
             despesaExistente.Id,
             "Viagem de negócios atualizada",
             new DateTime(2026, 8, 9),
@@ -366,7 +366,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Editar(new EditarDespesaDto(
+        Result<Guid> resultado = servicoDespesa.Editar(new EditarDespesaDto(
             despesaExistente.Id,
             "Jantar",
             new DateTime(2026, 8, 9),
@@ -502,7 +502,7 @@ public sealed class ServicoDespesaTests
             repositorioCategoria.Object
         );
 
-        Result resultado = servicoDespesa.Excluir(despesa.Id);
+        Result<Guid> resultado = servicoDespesa.Excluir(despesa.Id);
 
         Assert.IsTrue(resultado.IsSuccess);
         repositorioDespesa.Verify(r => r.Excluir(despesa.Id), Times.Once);

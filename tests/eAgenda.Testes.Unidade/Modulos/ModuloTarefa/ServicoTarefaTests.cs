@@ -23,7 +23,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
+        Result<Guid> resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
             "Faxina",
             PrioridadeTarefa.Alta
         ));
@@ -51,7 +51,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
+        Result<Guid> resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
             "Estudar",
             PrioridadeTarefa.Normal
         ));
@@ -84,7 +84,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultadoCadastro = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
+        Result<Guid> resultadoCadastro = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
             "Compras",
             PrioridadeTarefa.Baixa
         ));
@@ -92,12 +92,12 @@ public sealed class ServicoTarefaTestes
         Assert.IsTrue(resultadoCadastro.IsSuccess);
         Assert.IsNotNull(tarefaCadastrada);
 
-        Result resultadoItem1 = servicoTarefa.AdicionarItem(new AdicionarItemTarefaDto(
+        Result<Guid> resultadoItem1 = servicoTarefa.AdicionarItem(new AdicionarItemTarefaDto(
             tarefaCadastrada!.Id,
             "Comprar pão"
         ));
 
-        Result resultadoItem2 = servicoTarefa.AdicionarItem(new AdicionarItemTarefaDto(
+        Result<Guid> resultadoItem2 = servicoTarefa.AdicionarItem(new AdicionarItemTarefaDto(
             tarefaCadastrada.Id,
             "Comprar leite"
         ));
@@ -123,7 +123,7 @@ public sealed class ServicoTarefaTestes
             repositorioTarefa.Object
         );
 
-        Result resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
+        Result<Guid> resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
             string.Empty,
             PrioridadeTarefa.Baixa
         ));
@@ -148,7 +148,7 @@ public sealed class ServicoTarefaTestes
             repositorioTarefa.Object
         );
 
-        Result resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
+        Result<Guid> resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
             "Planejar viagem",
             (PrioridadeTarefa)999
         ));
@@ -177,7 +177,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
+        Result<Guid> resultado = servicoTarefa.Cadastrar(new CadastrarTarefaDto(
             "Faxina",
             PrioridadeTarefa.Alta
         ));
@@ -221,7 +221,7 @@ public sealed class ServicoTarefaTestes
             repositorioTarefa.Object
         );
 
-        Result resultado = servicoTarefa.Editar(new EditarTarefaDto(
+        Result<Guid> resultado = servicoTarefa.Editar(new EditarTarefaDto(
             tarefaExistente.Id,
             "Estudar Testes Automatizados",
             PrioridadeTarefa.Alta
@@ -257,7 +257,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultado = servicoTarefa.AlterarConclusao(new AlterarConclusaoTarefaDto(
+        Result<Guid> resultado = servicoTarefa.AlterarConclusao(new AlterarConclusaoTarefaDto(
             tarefaPendente.Id,
             true
         ));
@@ -292,7 +292,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultado = servicoTarefa.AlterarConclusao(new AlterarConclusaoTarefaDto(
+        Result<Guid> resultado = servicoTarefa.AlterarConclusao(new AlterarConclusaoTarefaDto(
             tarefaConcluida.Id,
             false
         ));
@@ -448,7 +448,7 @@ public sealed class ServicoTarefaTestes
 
         ServicoTarefa servicoTarefa = new(repositorioTarefa.Object);
 
-        Result resultado = servicoTarefa.Excluir(tarefaComItens.Id);
+        Result<Guid> resultado = servicoTarefa.Excluir(tarefaComItens.Id);
 
         Assert.IsTrue(resultado.IsSuccess);
         Assert.HasCount(0, tarefas);

@@ -38,7 +38,7 @@ public sealed class ServicoCompromissoTests
         );
 
         // Act
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Almoço de negócios",
             new DateTime(2026, 8, 8),
             new TimeSpan(12, 0, 0),
@@ -92,7 +92,7 @@ public sealed class ServicoCompromissoTests
         );
 
         // Act
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Almoço de negócios",
             new DateTime(2026, 8, 8),
             new TimeSpan(12, 0, 0),
@@ -140,7 +140,7 @@ public sealed class ServicoCompromissoTests
         );
 
         // Act
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Almoço de negócios",
             new DateTime(2026, 8, 8),
             new TimeSpan(12, 0, 0),
@@ -194,7 +194,7 @@ public sealed class ServicoCompromissoTests
         );
 
         // Act
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Almoço de negócios",
             new DateTime(2026, 8, 8),
             new TimeSpan(12, 0, 0),
@@ -233,7 +233,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             string.Empty,
             new DateTime(2026, 8, 8),
             new TimeSpan(12, 0, 0),
@@ -263,7 +263,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Reunião",
             default,
             new TimeSpan(12, 0, 0),
@@ -393,7 +393,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Treinamento",
             new DateTime(2026, 8, 10),
             new TimeSpan(10, 0, 0),
@@ -448,7 +448,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Treinamento",
             new DateTime(2026, 8, 11),
             new TimeSpan(9, 0, 0),
@@ -492,7 +492,7 @@ public sealed class ServicoCompromissoTests
 
         ServicoCompromisso servicoCompromisso = new(repositorioCompromisso.Object, repositorioContato.Object);
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Treinamento",
             new DateTime(2026, 8, 10),
             new TimeSpan(9, 30, 0),
@@ -528,7 +528,7 @@ public sealed class ServicoCompromissoTests
 
         ServicoCompromisso servicoCompromisso = new(repositorioCompromisso.Object, repositorioContato.Object);
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Treinamento",
             new DateTime(2026, 8, 10),
             new TimeSpan(10, 0, 0),
@@ -564,7 +564,7 @@ public sealed class ServicoCompromissoTests
 
         ServicoCompromisso servicoCompromisso = new(repositorioCompromisso.Object, repositorioContato.Object);
 
-        Result resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
+        var resultado = servicoCompromisso.Cadastrar(new CadastrarCompromissoDto(
             "Treinamento",
             new DateTime(2026, 8, 10),
             new TimeSpan(9, 0, 0),
@@ -616,7 +616,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
+        var resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
             compromissoExistente.Id,
             "Reunião de planejamento",
             new DateTime(2026, 8, 11),
@@ -663,7 +663,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
+        var resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
             compromissoA.Id,
             "Reunião A Conflitante",
             new DateTime(2026, 8, 10),
@@ -721,7 +721,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
+        var resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
             compromissoExistente.Id,
             "Reunião atualizada",
             new DateTime(2026, 8, 10),
@@ -781,7 +781,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
+        var resultado = servicoCompromisso.Editar(new EditarCompromissoDto(
             compromissoExistente.Id,
             "Reunião remota",
             new DateTime(2026, 8, 10),
@@ -937,7 +937,7 @@ public sealed class ServicoCompromissoTests
             repositorioContato.Object
         );
 
-        Result resultado = servicoCompromisso.Excluir(compromisso.Id);
+        var resultado = servicoCompromisso.Excluir(compromisso.Id);
 
         Assert.IsTrue(resultado.IsSuccess);
         repositorioCompromisso.Verify(r => r.Excluir(compromisso.Id), Times.Once);

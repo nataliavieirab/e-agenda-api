@@ -30,7 +30,7 @@ public sealed class ServicoCategoriaTestes
             repositorioDespesa.Object
         );
 
-        Result resultado = servicoCategoria.Cadastrar(new CadastrarCategoriaDto(
+        var resultado = servicoCategoria.Cadastrar(new CadastrarCategoriaDto(
             "Limpeza"
         ));
 
@@ -54,7 +54,7 @@ public sealed class ServicoCategoriaTestes
             repositorioDespesa.Object
         );
 
-        Result resultado = servicoCategoria.Cadastrar(new CadastrarCategoriaDto(
+        var resultado = servicoCategoria.Cadastrar(new CadastrarCategoriaDto(
             string.Empty
         ));
 
@@ -80,7 +80,7 @@ public sealed class ServicoCategoriaTestes
             repositorioDespesa.Object
         );
 
-        Result resultado = servicoCategoria.Cadastrar(new CadastrarCategoriaDto(
+        var resultado = servicoCategoria.Cadastrar(new CadastrarCategoriaDto(
             "Limpeza"
         ));
 
