@@ -22,7 +22,7 @@ public sealed class ContatosController(ServicoContato servicoContato) : Controll
         var resultadoSelecao = servicoContato.SelecionarPorId(id);
 
         if (resultadoSelecao.IsFailed)
-            return this.ValidationProblem(resultadoSelecao);
+            return this.ProblemDetails(resultadoSelecao);
 
         var dto = resultadoSelecao.Value;
 
@@ -43,7 +43,7 @@ public sealed class ContatosController(ServicoContato servicoContato) : Controll
         var resultadoCadastro = servicoContato.Cadastrar(dto);
 
         if (resultadoCadastro.IsFailed)
-            return this.ValidationProblem(resultadoCadastro);
+            return this.ProblemDetails(resultadoCadastro);
 
         var id = resultadoCadastro.Value;
 
@@ -74,7 +74,7 @@ public sealed class ContatosController(ServicoContato servicoContato) : Controll
         var resultadoEdicao = servicoContato.Editar(dto);
 
         if (resultadoEdicao.IsFailed)
-            return this.ValidationProblem(resultadoEdicao);
+            return this.ProblemDetails(resultadoEdicao);
 
         return NoContent();
     }
