@@ -4,12 +4,17 @@ using eAgenda.Infra.Compartilhado.Orm;
 using Microsoft.EntityFrameworkCore;
 using eAgenda.WebApi.Compartilhado;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfraRepositories(builder.Configuration, builder.Logging, builder.Environment);
 builder.Services.AddApplicationServices();
-builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddProblemDetails(options =>
 {
