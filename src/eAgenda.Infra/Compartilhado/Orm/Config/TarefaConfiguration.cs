@@ -13,6 +13,9 @@ public sealed class TarefaConfiguration : IEntityTypeConfiguration<Tarefa>
         builder.HasKey(t => t.Id)
             .HasName("PK_TBTarefa");
 
+        builder.Property(t => t.UsuarioId)
+            .IsRequired();
+
         builder.Property(t => t.Id)
             .ValueGeneratedNever();
 
